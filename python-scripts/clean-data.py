@@ -160,8 +160,8 @@ with open("data/data.json", "r") as file:
                 # rate limit for Geocoding API just under actual 3000 req / minute
                 iterator += 1
                 if iterator > 2500:
-                    print("\nGeocoding API limit reached, waiting for 120 seconds...\n")
-                    t.sleep(120)
+                    print("\nGeocoding API limit reached, waiting for 60 seconds...\n")
+                    t.sleep(60)
                     iterator = 0
                 
                 urlencoded_location = location.replace(",", "").replace(" ", "%20")
