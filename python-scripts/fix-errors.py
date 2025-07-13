@@ -5,18 +5,21 @@ months = ["January", "February", "March", "April",
           "May", "June", "July", "August", 
           "September", "October", "November", "December"]
 
-with open("data/cleaned_data.json", "r") as file:
-    data = json.load(file)
-    new_data = {}
+start_year = 1920
 
-    for i in range(1920, 1922):
-        year = data[str(i)]
+with open("data/cleaned_data.json", "r") as file:
+    all_data = json.load(file)
+    new_data = {}
+    iterator = 0
+
+    for i in all_data.keys():
+        year = all_data[i]
+        new_data[i] = {}
         if not year: continue
 
-        new_data[str(i)] = {}
-
-        for j in range(1, 1 + len(year)):
-            instance = year[str(j)]
+        for j in year.keys():
+            instance = year[j]
+            if not instance: continue
 
             datetime = instance["DateTime"]
             month = datetime.split("-")[1]
@@ -27,7 +30,8 @@ with open("data/cleaned_data.json", "r") as file:
                 datetime = datetime.replace(f"-{month}-", f"-{month_str}-")
             
             instance["DateTime"] = datetime
-            new_data[str(i)][str(j)] = instance
+            new_data[str(i)][j] = instance
 
 with open("data/fixed-errors.json", "w") as file:
     json.dump(new_data, file, indent=4)
+    print("Fixed errors and saved to data/fixed-errors.json")
